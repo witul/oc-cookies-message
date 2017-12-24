@@ -1,0 +1,52 @@
+fields:
+    cookie_text:
+        label: 'Treść'
+        type: textarea
+        description: 'Komunikat do wyświetlenia. Jeśli istnieje regulamin, można uzywać tagów [link] [/link] oraz zmiennej {{ pageTitle }}'
+
+    _cookie_section1:
+        type: section
+        label: Przycisk potwierdzający
+
+    cookie_show_button:
+        type: switch
+        span: left
+        label: Pokaż przycisk potwierdzający
+        comment: Przycisk potwierdzenia i zamknięcia okna
+    cookie_button_label:
+        type: text
+        label: Etykietka przycisku potwierdzającego
+        span: right
+        trigger:
+            action: show
+            field: cookie_show_button
+            condition: checked
+
+    _cookie_section2:
+        type: section
+        label: Regulamin
+
+    cookie_use_link:
+        type: switch
+        span: left
+        label: Pokaż link do strony z regulaminem
+        comment: Kiedy aktywne, można używać tagów [link], [/link] i [pageTitle]
+
+    cookie_terms_page:
+        label: Strona z regulaminem
+        type: dropdown
+        span: right
+        trigger:
+            action: show
+            field: cookie_use_link
+            condition: checked
+
+    _cookie_section3:
+        type: section
+        label: Przycisk zamykający
+        comment: Przycisk [X], zamykający okno
+
+    cookie_show_close:
+        type: switch
+        label: Pokaż przycisk zamykający (X)
+

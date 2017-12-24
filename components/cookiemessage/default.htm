@@ -1,0 +1,53 @@
+{% set cm= __SELF__ %}
+{% if not cm.cookiesAccepted() %}
+{% set message = cm.message() %}
+{% set content = message.raw_text|replace({'[link]':"<a href='"~cm.getTermsLink()~"'>",'[/link]':"</a>"}) %}
+
+<div id="cookie-info">
+
+    <p>{{ content|raw }}</p>
+
+    {% if cm.hasAgreeButton() %}
+    <button class="cookie-button agree-button">{{message.agree_button_text }}</button>
+    {% endif %}
+
+    {% if cm.hasCloseButton() %}
+    <button class="cookie-button close-button">[X]</button>
+    {% endif %}
+
+</div>
+{% endif %}
+
+
+{% put scripts %}
+    <script>
+
+var cookieInfo = document.getElementById('cookie-info');
+document.addEventListener("DOMContentLoaded", function(event) {
+
+    var g=Gator(cookieInfo);
+
+    g.on('click','.cookie-button',function(e){
+
+        if(this.classList.contains('close-button')){
+
+            var handler = "{{ __SELF__ }}::onCancel";
+        }
+
+        else{
+            var handler = "{{ __SELF__ }}::onAgree";
+
+        }
+
+        qwest.post('/',null,{headers: {
+            'X-OCTOBER-REQUEST-HANDLER':handler
+        }})
+            .then(function(xhr,resp){
+                cookieInfo.remove();
+                g.off();
+            }).send();
+    });
+});
+
+</script>
+{% endput %}
